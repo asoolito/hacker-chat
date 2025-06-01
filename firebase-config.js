@@ -1,4 +1,4 @@
-// Firebase konfiguratsiyasi - o'z loyihangiz ma'lumotlari bilan almashtiring
+// Siz bergan Firebase konfiguratsiyasi
 const firebaseConfig = {
   apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
   authDomain: "hacker-chat-4fff2.firebaseapp.com",
@@ -39,23 +39,30 @@ function sendMessage() {
 
   if (!username) {
     alert('Iltimos, ismingizni kiriting!');
+    usernameInput.focus();
     return;
   }
   if (!text) {
     alert('Xabar bo\'sh bo\'lishi mumkin emas!');
+    messageInput.focus();
     return;
   }
 
+  // Firebase ga yangi xabar qo'shish
   messagesRef.push({
     username,
     text,
     timestamp: Date.now()
+  }).then(() => {
+    // Muvaffaqiyatli yuborilgandan keyin input tozalash
+    messageInput.value = '';
+    messageInput.focus();
+  }).catch(error => {
+    alert('Xabar yuborishda xatolik: ' + error.message);
   });
-
-  messageInput.value = '';
-  messageInput.focus();
 }
 
+// Event listenerlar
 sendBtn.addEventListener('click', sendMessage);
 messageInput.addEventListener('keypress', e => {
   if (e.key === 'Enter') sendMessage();
