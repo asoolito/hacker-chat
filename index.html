@@ -2,27 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hacker Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hacker Style Real-Time Chat</title>
   <link rel="stylesheet" href="styles.css" />
-  <script type="module" src="chat.js" defer></script>
-  <script type="module" src="firebase.js"></script>
 </head>
 <body>
-  <div class="chat-container">
-    <header>
-      <img src="https://i.ytimg.com/vi/M_008Fvj6f4/maxresdefault.jpg" alt="Anonymous" />
-      <h1>Anonymous Hacker Chat</h1>
-    </header>
-
-    <main id="chat-box">
-      <!-- Xabarlar shu yerga chiqadi -->
-    </main>
-
+  <div class="container">
+    <h1>Anonymous Hacker Chat</h1>
+    <div id="chat-box" class="chat-box"></div>
     <form id="chat-form">
-      <input type="text" id="message-input" placeholder="Xabar yozing..." required />
-      <button type="submit">Yubor</button>
+      <input
+        type="text"
+        id="message-input"
+        placeholder="Xabaringizni yozing..."
+        autocomplete="off"
+        required
+      />
+      <button type="submit">Yuborish</button>
     </form>
   </div>
+
+  <script type="module" src="main.js"></script>
 </body>
 </html>
