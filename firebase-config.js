@@ -13,12 +13,12 @@ import {
 
 // Firebase konfiguratsiyasi
 const firebaseConfig = {
-  apiKey: "SIZNING_API_KEY",
-  authDomain: "SIZNING_PROJECT.firebaseapp.com",
-  projectId: "SIZNING_PROJECT",
-  storageBucket: "SIZNING_PROJECT.appspot.com",
-  messagingSenderId: "SIZNING_MESSAGING_SENDER_ID",
-  appId: "SIZNING_APP_ID"
+  apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
+  authDomain: "hacker-chat-4fff2.firebaseapp.com",
+  projectId: "hacker-chat-4fff2",
+  storageBucket: "hacker-chat-4fff2.firebasestorage.app",
+  messagingSenderId: "426796888186",
+  appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
 };
 
 // Firebase ilovasini ishga tushirish
