@@ -3,22 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hacker Chat - Login</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Hacker Chat</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="chat.js" defer></script>
+  <script type="module" src="firebase.js"></script>
 </head>
-<body class="bg-black text-green-400 flex flex-col items-center justify-center h-screen">
+<body>
+  <div class="chat-container">
+    <header>
+      <img src="https://i.ytimg.com/vi/M_008Fvj6f4/maxresdefault.jpg" alt="Anonymous" />
+      <h1>Anonymous Hacker Chat</h1>
+    </header>
 
-  <h1 class="text-4xl mb-6 font-bold">👨‍💻 Hacker Chat</h1>
+    <main id="chat-box">
+      <!-- Xabarlar shu yerga chiqadi -->
+    </main>
 
-  <div class="bg-gray-900 p-8 rounded-xl shadow-md w-80">
-    <input id="email" type="email" placeholder="Email" class="w-full mb-4 p-2 rounded bg-black border border-green-400 text-green-300"/>
-    <input id="password" type="password" placeholder="Parol" class="w-full mb-4 p-2 rounded bg-black border border-green-400 text-green-300"/>
-
-    <button id="login" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded w-full mb-2">Kirish</button>
-    <button id="register" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Ro‘yxatdan o‘tish</button>
+    <form id="chat-form">
+      <input type="text" id="message-input" placeholder="Xabar yozing..." required />
+      <button type="submit">Yubor</button>
+    </form>
   </div>
-
-  <script type="module" src="./firebase.js"></script>
-  <script type="module" src="./auth.js"></script>
 </body>
 </html>
