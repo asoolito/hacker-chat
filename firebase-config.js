@@ -1,12 +1,5 @@
-// firebase.js
+// Firebase import va konfiguratsiya
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import {
   getFirestore,
   collection,
@@ -14,13 +7,10 @@ import {
   query,
   orderBy,
   onSnapshot,
-  serverTimestamp,
-  doc,
-  getDoc,
-  setDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-// Firebase config (o'zingizning config'ingizni yozing)
+// Firebase project config (o'zingizning project ma'lumotlari bilan to'ldirilgan bo'lishi kerak)
 const firebaseConfig = {
   apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
   authDomain: "hacker-chat-4fff2.firebaseapp.com",
@@ -30,24 +20,17 @@ const firebaseConfig = {
   appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
 };
 
+// Firebase'ni ishga tushirish
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Exportlar
 export {
-  auth,
   db,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
   collection,
   addDoc,
   query,
   orderBy,
   onSnapshot,
-  serverTimestamp,
-  doc,
-  getDoc,
-  setDoc,
+  serverTimestamp
 };
