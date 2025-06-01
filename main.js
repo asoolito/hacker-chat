@@ -1,70 +1,68 @@
-// main.js
 import {
-  auth,
-  db,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import {
+  getFirestore,
   collection,
   addDoc,
   query,
   orderBy,
   onSnapshot,
   serverTimestamp
-} from './firebase.js';
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const loginBtn = document.getElementById("loginBtn");
-const registerBtn = document.getElementById("registerBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const sendBtn = document.getElementById("sendBtn");
-const messageInput = document.getElementById("messageInput");
-const messagesDiv = document.getElementById("messages");
-
-loginBtn.onclick = () => {
-  signInWithEmailAndPassword(auth, email.value, password.value).catch(err => alert(err.message));
+// Firebase konfiguratsiyasi
+const firebaseConfig = {
+  apiKey: "SIZNING_API_KEY",
+  authDomain: "SIZNING_PROJECT.firebaseapp.com",
+  projectId: "SIZNING_PROJECT",
+  storageBucket: "SIZNING_PROJECT.appspot.com",
+  messagingSenderId: "SIZNING_MESSAGING_SENDER_ID",
+  appId: "SIZNING_APP_ID"
 };
 
-registerBtn.onclick = () => {
-  createUserWithEmailAndPassword(auth, email.value, password.value).catch(err => alert(err.message));
-};
+// Firebase ilovasini ishga tushirish
+const app = initializeApp(firebaseConfig);
 
-logoutBtn.onclick = () => {
-  signOut(auth);
-};
+// Firestore ma'lumotlar bazasini olish
+const db = getFirestore(app);
 
-sendBtn.onclick = async () => {
+const chatBox = document.getElementById("chat-box");
+const chatForm = document.getElementById("chat-form");
+const messageInput = document.getElementById("message-input");
+
+// "messages" kolleksiyasiga ulanish
+const messagesRef = collection(db, "messages");
+
+// Xabarlarni vaqt tartibida olish uchun query
+const q = query(messagesRef, orderBy("createdAt", "asc"));
+
+// Real vaqt rejimida xabarlarni olish va ko'rsatish
+onSnapshot(q, (querySnapshot) => {
+  chatBox.innerHTML = "";
+  querySnapshot.forEach((doc) => {
+    const message = doc.data();
+    const msgElem = document.createElement("div");
+    msgElem.classList.add("message");
+    msgElem.textContent = message.text;
+    chatBox.appendChild(msgElem);
+  });
+  chatBox.scrollTop = chatBox.scrollHeight; // pastga scroll
+});
+
+// Xabar yuborish funksiyasi
+chatForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
   const text = messageInput.value.trim();
-  if (text) {
-    await addDoc(collection(db, "messages"), {
-      text,
-      user: auth.currentUser.email,
+  if (text === "") return;
+
+  try {
+    await addDoc(messagesRef, {
+      text: text,
       createdAt: serverTimestamp()
     });
     messageInput.value = "";
-  }
-};
-
-onAuthStateChanged(auth, user => {
-  if (user) {
-    document.getElementById("login-box").style.display = "none";
-    document.getElementById("chat-box").style.display = "block";
-
-    const q = query(collection(db, "messages"), orderBy("createdAt"));
-    onSnapshot(q, snapshot => {
-      messagesDiv.innerHTML = "";
-      snapshot.forEach(doc => {
-        const msg = doc.data();
-        const div = document.createElement("div");
-        div.textContent = `${msg.user}: ${msg.text}`;
-        messagesDiv.appendChild(div);
-      });
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    });
-  } else {
-    document.getElementById("login-box").style.display = "block";
-    document.getElementById("chat-box").style.display = "none";
+  } catch (error) {
+    console.error("Xabar yuborishda xatolik:", error);
   }
 });
