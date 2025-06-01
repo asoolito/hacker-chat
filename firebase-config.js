@@ -1,17 +1,4 @@
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  query,
-  orderBy,
-  onSnapshot,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-// Firebase konfiguratsiyasi
+// Firebase konfiguratsiyasi - o'z loyihangiz ma'lumotlari bilan almashtiring
 const firebaseConfig = {
   apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
   authDomain: "hacker-chat-4fff2.firebaseapp.com",
@@ -21,48 +8,55 @@ const firebaseConfig = {
   appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
 };
 
-// Firebase ilovasini ishga tushirish
-const app = initializeApp(firebaseConfig);
+// Firebase boshlash
+firebase.initializeApp(firebaseConfig);
 
-// Firestore ma'lumotlar bazasini olish
-const db = getFirestore(app);
+const db = firebase.database();
+const messagesRef = db.ref('messages');
 
-const chatBox = document.getElementById("chat-box");
-const chatForm = document.getElementById("chat-form");
-const messageInput = document.getElementById("message-input");
+const messagesDiv = document.getElementById('messages');
+const usernameInput = document.getElementById('username');
+const messageInput = document.getElementById('messageInput');
+const sendBtn = document.getElementById('sendBtn');
 
-// "messages" kolleksiyasiga ulanish
-const messagesRef = collection(db, "messages");
+function showMessage(data) {
+  const div = document.createElement('div');
+  div.textContent = `${data.username}: ${data.text}`;
+  div.style.textShadow = "0 0 3px #00ff00";
+  div.style.whiteSpace = "pre-wrap";
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
 
-// Xabarlarni vaqt tartibida olish uchun query
-const q = query(messagesRef, orderBy("createdAt", "asc"));
-
-// Real vaqt rejimida xabarlarni olish va ko'rsatish
-onSnapshot(q, (querySnapshot) => {
-  chatBox.innerHTML = "";
-  querySnapshot.forEach((doc) => {
-    const message = doc.data();
-    const msgElem = document.createElement("div");
-    msgElem.classList.add("message");
-    msgElem.textContent = message.text;
-    chatBox.appendChild(msgElem);
-  });
-  chatBox.scrollTop = chatBox.scrollHeight; // pastga scroll
+// Firebase realtime data olish
+messagesRef.on('child_added', snapshot => {
+  showMessage(snapshot.val());
 });
 
-// Xabar yuborish funksiyasi
-chatForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+function sendMessage() {
+  const username = usernameInput.value.trim();
   const text = messageInput.value.trim();
-  if (text === "") return;
 
-  try {
-    await addDoc(messagesRef, {
-      text: text,
-      createdAt: serverTimestamp()
-    });
-    messageInput.value = "";
-  } catch (error) {
-    console.error("Xabar yuborishda xatolik:", error);
+  if (!username) {
+    alert('Iltimos, ismingizni kiriting!');
+    return;
   }
+  if (!text) {
+    alert('Xabar bo\'sh bo\'lishi mumkin emas!');
+    return;
+  }
+
+  messagesRef.push({
+    username,
+    text,
+    timestamp: Date.now()
+  });
+
+  messageInput.value = '';
+  messageInput.focus();
+}
+
+sendBtn.addEventListener('click', sendMessage);
+messageInput.addEventListener('keypress', e => {
+  if (e.key === 'Enter') sendMessage();
 });
