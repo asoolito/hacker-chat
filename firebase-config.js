@@ -20,12 +20,12 @@ import {
 
 // ❗ Buni o'zingning Firebase'dagi config bilan almashtir
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
+  authDomain: "hacker-chat-4fff2.firebaseapp.com",
+  projectId: "hacker-chat-4fff2",
+  storageBucket: "hacker-chat-4fff2.firebasestorage.app",
+  messagingSenderId: "426796888186",
+  appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
 };
 
 const app = initializeApp(firebaseConfig);
