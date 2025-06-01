@@ -1,29 +1,82 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Hacker Style Firebase Chat</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Hacker Chat</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: monospace;
+    }
+    #messages {
+      height: 300px;
+      overflow-y: scroll;
+      border: 1px solid #0f0;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    input, button {
+      background: black;
+      color: #0f0;
+      border: 1px solid #0f0;
+      padding: 5px;
+    }
+  </style>
 </head>
 <body>
-
-  <h1 id="title">Hacker Style Web Chat</h1>
-
-  <label for="username" id="labelUsername">Ismingiz:</label><br />
-  <input type="text" id="username" placeholder="Ismingizni kiriting" autocomplete="off" />
-
+  <h1>Hacker Chat</h1>
   <div id="messages"></div>
+  <input type="text" id="username" placeholder="Ismingiz">
+  <input type="text" id="messageInput" placeholder="Xabar">
+  <button id="sendBtn">Yuborish</button>
 
-  <div id="inputArea">
-    <input type="text" id="messageInput" placeholder="Xabaringizni kiriting" autocomplete="off" />
-    <button id="sendBtn">Yuborish</button>
-  </div>
-
-  <!-- Firebase JS SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyByz_qsV-EcBgnbAbOIRvD9SQD06NcWzyM",
+      authDomain: "hacker-chat-4fff2.firebaseapp.com",
+      databaseURL: "https://hacker-chat-4fff2-default-rtdb.firebaseio.com",
+      projectId: "hacker-chat-4fff2",
+      storageBucket: "hacker-chat-4fff2.appspot.com",
+      messagingSenderId: "426796888186",
+      appId: "1:426796888186:web:f830147b355ceb0cae8bc3"
+    };
 
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const messagesRef = db.ref("messages");
 
-  <script src="script.js"></script>
+    const messagesDiv = document.getElementById("messages");
+    const usernameInput = document.getElementById("username");
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    function showMessage(data) {
+      const div = document.createElement("div");
+      div.textContent = `${data.username}: ${data.text}`;
+      messagesDiv.appendChild(div);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", () => {
+      const username = usernameInput.value.trim();
+      const text = messageInput.value.trim();
+      if (!username || !text) return alert("Ism va xabar kiriting!");
+
+      messagesRef.push({
+        username,
+        text,
+        timestamp: Date.now()
+      });
+
+      messageInput.value = "";
+    });
+
+    messagesRef.on("child_added", (snapshot) => {
+      showMessage(snapshot.val());
+    });
+  </script>
 </body>
 </html>
