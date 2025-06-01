@@ -2,33 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hacker Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hacker Chat - Login</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <img src="https://i.ytimg.com/vi/M_008Fvj6f4/maxresdefault.jpg" alt="Anonymous" />
-      <h1>Asoschi: Anonymous</h1>
-    </div>
+<body class="bg-black text-green-400 flex flex-col items-center justify-center h-screen">
 
-    <div id="login-box">
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Parol">
-      <button id="loginBtn">Login</button>
-      <button id="registerBtn">Ro'yxatdan o'tish</button>
-    </div>
+  <h1 class="text-4xl mb-6 font-bold">👨‍💻 Hacker Chat</h1>
 
-    <div id="chat-box" style="display:none;">
-      <div id="messages"></div>
-      <input type="text" id="messageInput" placeholder="Xabar yozing...">
-      <button id="sendBtn">Yuborish</button>
-      <button id="logoutBtn">Chiqish</button>
-    </div>
+  <div class="bg-gray-900 p-8 rounded-xl shadow-md w-80">
+    <input id="email" type="email" placeholder="Email" class="w-full mb-4 p-2 rounded bg-black border border-green-400 text-green-300"/>
+    <input id="password" type="password" placeholder="Parol" class="w-full mb-4 p-2 rounded bg-black border border-green-400 text-green-300"/>
+
+    <button id="login" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded w-full mb-2">Kirish</button>
+    <button id="register" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Ro‘yxatdan o‘tish</button>
   </div>
 
-  <script type="module" src="main.js"></script>
+  <script type="module" src="./firebase.js"></script>
+  <script type="module" src="./auth.js"></script>
 </body>
 </html>
