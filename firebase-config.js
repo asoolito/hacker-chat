@@ -69,3 +69,10 @@ sendBtn.addEventListener('click', sendMessage);
 messageInput.addEventListener('keypress', e => {
   if (e.key === 'Enter') sendMessage();
 });
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+
