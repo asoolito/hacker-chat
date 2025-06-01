@@ -2,29 +2,19 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8" />
-  <title>Firebase Real-time Chat</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; }
-    #messages { border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; margin-bottom: 10px; }
-    #messages div { margin-bottom: 5px; }
-    #inputArea { display: flex; }
-    #inputArea input[type="text"] { flex: 1; padding: 10px; font-size: 16px; }
-    #inputArea button { padding: 10px 20px; font-size: 16px; }
-  </style>
+  <title>Hacker Style Firebase Chat</title>
 </head>
 <body>
 
-  <h1>Web Chat (Firebase Realtime DB)</h1>
+  <h1 id="title">Hacker Style Web Chat</h1>
 
-  <div>
-    <label>Ismingiz: </label>
-    <input type="text" id="username" placeholder="Ismingizni kiriting" />
-  </div>
+  <label for="username" id="labelUsername">Ismingiz:</label><br />
+  <input type="text" id="username" placeholder="Ismingizni kiriting" autocomplete="off" />
 
   <div id="messages"></div>
 
   <div id="inputArea">
-    <input type="text" id="messageInput" placeholder="Xabaringizni kiriting" />
+    <input type="text" id="messageInput" placeholder="Xabaringizni kiriting" autocomplete="off" />
     <button id="sendBtn">Yuborish</button>
   </div>
 
@@ -33,7 +23,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
   <script>
-    // Firebase konfiguratsiyasi
+    // Firebase konfiguratsiyasi - o'z loyihangiz ma'lumotlari bilan almashtiring
     const firebaseConfig = {
       apiKey: "SIZNING_API_KEY",
       authDomain: "SIZNING_PROEKT.firebaseapp.com",
@@ -44,9 +34,129 @@
       appId: "1:1234567890:web:abcdefghijk",
     };
 
-    // Firebase-ni boshlash
+    // Firebase boshlash
     firebase.initializeApp(firebaseConfig);
 
+    // Hacker style ni JS bilan qo'shish
+    function applyHackerStyle() {
+      const body = document.body;
+      Object.assign(body.style, {
+        backgroundColor: "#0f0f0f",
+        color: "#00ff00",
+        fontFamily: "'Courier New', Courier, monospace",
+        margin: "0",
+        padding: "20px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        height: "100vh",
+      });
+
+      const title = document.getElementById("title");
+      Object.assign(title.style, {
+        textShadow: "0 0 5px #00ff00, 0 0 10px #00ff00",
+        marginBottom: "10px",
+      });
+
+      const label = document.getElementById("labelUsername");
+      Object.assign(label.style, {
+        color: "#0f0",
+        fontWeight: "bold",
+      });
+
+      const usernameInput = document.getElementById("username");
+      Object.assign(usernameInput.style, {
+        backgroundColor: "#000",
+        border: "1px solid #00ff00",
+        color: "#00ff00",
+        padding: "10px",
+        fontFamily: "monospace",
+        fontSize: "16px",
+        outline: "none",
+        width: "250px",
+        marginBottom: "15px",
+        boxShadow: "0 0 5px #00ff00",
+        transition: "0.3s",
+      });
+      usernameInput.onfocus = () => {
+        usernameInput.style.borderColor = "#0f0";
+        usernameInput.style.boxShadow = "0 0 10px #0f0";
+      };
+      usernameInput.onblur = () => {
+        usernameInput.style.borderColor = "#00ff00";
+        usernameInput.style.boxShadow = "0 0 5px #00ff00";
+      };
+
+      const messages = document.getElementById("messages");
+      Object.assign(messages.style, {
+        backgroundColor: "#000",
+        border: "1px solid #00ff00",
+        width: "600px",
+        height: "350px",
+        overflowY: "scroll",
+        padding: "15px",
+        boxShadow: "0 0 20px #00ff00",
+        marginBottom: "10px",
+      });
+
+      const inputArea = document.getElementById("inputArea");
+      Object.assign(inputArea.style, {
+        display: "flex",
+        width: "600px",
+      });
+
+      const messageInput = document.getElementById("messageInput");
+      Object.assign(messageInput.style, {
+        flex: "1",
+        borderRight: "none",
+        borderRadius: "5px 0 0 5px",
+        backgroundColor: "#000",
+        border: "1px solid #00ff00",
+        color: "#00ff00",
+        padding: "10px",
+        fontFamily: "monospace",
+        fontSize: "16px",
+        outline: "none",
+        boxShadow: "0 0 5px #00ff00",
+        transition: "0.3s",
+      });
+      messageInput.onfocus = () => {
+        messageInput.style.borderColor = "#0f0";
+        messageInput.style.boxShadow = "0 0 10px #0f0";
+      };
+      messageInput.onblur = () => {
+        messageInput.style.borderColor = "#00ff00";
+        messageInput.style.boxShadow = "0 0 5px #00ff00";
+      };
+
+      const sendBtn = document.getElementById("sendBtn");
+      Object.assign(sendBtn.style, {
+        backgroundColor: "#000",
+        border: "1px solid #00ff00",
+        color: "#00ff00",
+        padding: "10px 25px",
+        fontFamily: "monospace",
+        fontSize: "16px",
+        cursor: "pointer",
+        borderRadius: "0 5px 5px 0",
+        boxShadow: "0 0 10px #00ff00",
+        transition: "0.3s",
+      });
+      sendBtn.onmouseover = () => {
+        sendBtn.style.backgroundColor = "#0f0";
+        sendBtn.style.color = "#000";
+        sendBtn.style.boxShadow = "0 0 20px #0f0";
+      };
+      sendBtn.onmouseout = () => {
+        sendBtn.style.backgroundColor = "#000";
+        sendBtn.style.color = "#00ff00";
+        sendBtn.style.boxShadow = "0 0 10px #00ff00";
+      };
+    }
+
+    applyHackerStyle();
+
+    // Firebase ma'lumotlar bazasi bilan ishlash
     const db = firebase.database();
     const messagesRef = db.ref('messages');
 
@@ -55,17 +165,20 @@
     const messageInput = document.getElementById('messageInput');
     const sendBtn = document.getElementById('sendBtn');
 
-    // Chatdagi yangi xabarlarni real-time olish
-    messagesRef.on('child_added', (snapshot) => {
-      const data = snapshot.val();
+    function showMessage(data) {
       const div = document.createElement('div');
       div.textContent = `${data.username}: ${data.text}`;
+      div.style.textShadow = "0 0 3px #00ff00";
+      div.style.whiteSpace = "pre-wrap";
       messagesDiv.appendChild(div);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight; // har doim pastga scroll
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    messagesRef.on('child_added', snapshot => {
+      showMessage(snapshot.val());
     });
 
-    // Xabar yuborish funksiyasi
-    sendBtn.onclick = () => {
+    function sendMessage() {
       const username = usernameInput.value.trim();
       const text = messageInput.value.trim();
 
@@ -78,7 +191,6 @@
         return;
       }
 
-      // Firebase ga yozish
       messagesRef.push({
         username,
         text,
@@ -87,11 +199,11 @@
 
       messageInput.value = '';
       messageInput.focus();
-    };
+    }
 
-    // Enter bosganda yuborish uchun
-    messageInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendBtn.click();
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendMessage();
     });
   </script>
 
