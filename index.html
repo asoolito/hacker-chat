@@ -1,27 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hacker Style Real-Time Chat</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Firebase Real-time Chat</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; }
+    #messages { border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; margin-bottom: 10px; }
+    #messages div { margin-bottom: 5px; }
+    #inputArea { display: flex; }
+    #inputArea input[type="text"] { flex: 1; padding: 10px; font-size: 16px; }
+    #inputArea button { padding: 10px 20px; font-size: 16px; }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Anonymous Hacker Chat</h1>
-    <div id="chat-box" class="chat-box"></div>
-    <form id="chat-form">
-      <input
-        type="text"
-        id="message-input"
-        placeholder="Xabaringizni yozing..."
-        autocomplete="off"
-        required
-      />
-      <button type="submit">Yuborish</button>
-    </form>
+
+  <h1>Web Chat (Firebase Realtime DB)</h1>
+
+  <div>
+    <label>Ismingiz: </label>
+    <input type="text" id="username" placeholder="Ismingizni kiriting" />
   </div>
 
-  <script type="module" src="main.js"></script>
+  <div id="messages"></div>
+
+  <div id="inputArea">
+    <input type="text" id="messageInput" placeholder="Xabaringizni kiriting" />
+    <button id="sendBtn">Yuborish</button>
+  </div>
+
+  <!-- Firebase JS SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <script>
+    // Firebase konfiguratsiyasi
+    const firebaseConfig = {
+      apiKey: "SIZNING_API_KEY",
+      authDomain: "SIZNING_PROEKT.firebaseapp.com",
+      databaseURL: "https://SIZNING_PROEKT-default-rtdb.firebaseio.com",
+      projectId: "SIZNING_PROEKT",
+      storageBucket: "SIZNING_PROEKT.appspot.com",
+      messagingSenderId: "1234567890",
+      appId: "1:1234567890:web:abcdefghijk",
+    };
+
+    // Firebase-ni boshlash
+    firebase.initializeApp(firebaseConfig);
+
+    const db = firebase.database();
+    const messagesRef = db.ref('messages');
+
+    const messagesDiv = document.getElementById('messages');
+    const usernameInput = document.getElementById('username');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Chatdagi yangi xabarlarni real-time olish
+    messagesRef.on('child_added', (snapshot) => {
+      const data = snapshot.val();
+      const div = document.createElement('div');
+      div.textContent = `${data.username}: ${data.text}`;
+      messagesDiv.appendChild(div);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight; // har doim pastga scroll
+    });
+
+    // Xabar yuborish funksiyasi
+    sendBtn.onclick = () => {
+      const username = usernameInput.value.trim();
+      const text = messageInput.value.trim();
+
+      if (!username) {
+        alert('Iltimos, ismingizni kiriting!');
+        return;
+      }
+      if (!text) {
+        alert('Xabar bo\'sh bo\'lishi mumkin emas!');
+        return;
+      }
+
+      // Firebase ga yozish
+      messagesRef.push({
+        username,
+        text,
+        timestamp: Date.now()
+      });
+
+      messageInput.value = '';
+      messageInput.focus();
+    };
+
+    // Enter bosganda yuborish uchun
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendBtn.click();
+    });
+  </script>
+
 </body>
 </html>
